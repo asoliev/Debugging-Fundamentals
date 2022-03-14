@@ -1,6 +1,8 @@
-﻿namespace Task1
+﻿using System;
+
+namespace Task1
 {
-    public class Product
+    public class Product : IEquatable<Product>
     {
         public Product(string name, double price)
         {
@@ -11,16 +13,22 @@
         public string Name { get; set; }
 
         public double Price { get; set; }
-
+        
         public override bool Equals(object obj)
         {
-            if (obj is Product)
-            {
-                var convertedIncomeParam = obj as Product;
-                return convertedIncomeParam.Name == Name && convertedIncomeParam.Price == Price;
-            }
+            return Equals(obj as Product);
+        }
 
-            return base.Equals(obj);
+        public bool Equals(Product other)
+        {
+            return other != null &&
+                   Name == other.Name &&
+                   Price == other.Price;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Price);
         }
     }
 }
